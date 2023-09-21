@@ -138,8 +138,6 @@ draft: false
     - Traffic management with load balancers
     - Evolution of OSes from client to client/server
 
-## Class Notes 2
-
 - Bootstrap program
     - First program executed on startup
     - Initializes CPU registers, memory, devices
