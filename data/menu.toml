@@ -20,3 +20,15 @@ title = "Acknowledgements"
   [[entries.entries]]
   title = "Prof. Rich West for his OS class (CS552) @ BU"
   url = "https://www.cs.bu.edu/fac/richwest/index2.html"
+
+  [[entries.entries]]
+  title = "Modern Operating Systems by Andrew S. Tanenbaum"
+  url = "https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X"
+
+  [[entries.entries]]
+  title = "Understanding the Linux Kernel by Daniel P. Bovet & Marco Cesati"
+  url = "https://www.amazon.com/Understanding-Linux-Kernel-Third-Daniel/dp/0596005652"
+
+  [[entries.entries]]
+  title = "Linux device drivers by Jonathan Corbet, Alessandro Rubini, and Greg Kroah-Hartman"
+  url = "https://lwn.net/Kernel/LDD3/"
