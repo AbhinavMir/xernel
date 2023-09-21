@@ -1,5 +1,256 @@
 ---
-title: "Interrupts and such"
+title: "A few introductory notes"
 date: 2020-07-06T00:00:00+08:00
 draft: false
 ---
+
+- OS concepts
+    - Program between user and hardware
+    - Allows users to execute programs
+    - Provides protection, reliability, efficiency, predictability, convenience
+- Computer system
+    - Hardware, OS, programs, users
+- System organization
+    - CPUs, controllers connected via bus to shared memory
+    - Memory accessed via controller
+    - Concurrent execution competing for memory cycles
+- Example: PC chipset architecture
+- Bootstrap program
+    - Initial program when system starts
+    - Initializes CPU, memory, devices
+    - Loads OS kernel into memory 
+    - e.g. GRUB, LILO, Das U-Boot, systemd-boot/gummiboot
+    - OS executes first process (init in Linux) then waits for events/interrupts
+- x86 boot sector (MBR)
+    - Assumed to be first sector on disk
+    - Contains boot code and partition table
+    - BIOS loads it into memory and executes it
+    - Can chainload another boot sector
+    - Must fit in 512 bytes before partition table
+- BIOS booting steps:
+    - Power on self test (POST) 
+    - Check boot sectors on drives for valid signature
+    - Read valid sector into memory at 0x7C00
+    - May relocate it, replacing 0x7C00 with new sector
+    - Execute boot code to load kernel
+- x86 memory map
+    - IVT, BIOS data, Conventional mem, Boot sector, Extended BIOS, Video/ROM
+- BIOS services to kernel services timeline
+- 32-bit memory layout  
+    - Last 16 bytes accessible via EIP register
+    - Upper areas unusable in real mode
+    - 640KB conventional mem 
+    - BIOS in high memory
+- Computer system organization
+    - CPUs, controllers, bus, shared memory
+- System operation
+    - Concurrent device and CPU execution
+    - Controller in charge of device type
+    - Controller has local buffer
+    - CPU/DMA moves data between buffer and memory  
+    - Controller interrupts CPU on completion
+- Interrupt causes
+    - I/O completion
+    - Program faults
+    - Bus errors, address errors, page faults
+    - System calls
+- x86 exceptions and interrupts
+- Interrupt hardware
+    - Cascaded 8259 PIC chips
+    - Later advanced to support PCI interrupts
+- Multiprocessor interrupt hardware
+    - xAPIC, IOAPIC
+- Interrupt handling
+    - CPU stops execution and transfers control to ISR
+    - Uses interrupt vector table of ISR addresses
+    - May disable interrupts during processing
+    - Resumes execution after
+    - State preserved by storing registers and PC
+- I/O structure
+    - CPU loads controller registers to start I/O
+    - Controller interprets then performs operation
+    - Interrupts CPU on completion
+- Synchronous vs asynchronous I/O
+- Polling
+    - CPU repeatedly checks device status
+    - Uses device table to track requests
+    - OS maintains wait queue per device
+- DMA
+    - Used for high speed devices 
+    - Device controller transfers data between buffer and memory without CPU
+    - Only one interrupt per block rather than per byte  
+- Storage structure
+    - Main memory directly accessible to CPU
+    - Secondary storage extends capacity
+- Storage hierarchy
+    - Organized by speed, cost, volatility, capacity 
+    - Caching - copying data to faster storage
+    - Main memory is last cache for secondary storage
+- Storage device hierarchy
+- Storage performance of different levels
+- Caching principles
+    - Frequently used data copied to faster storage
+    - Cache checked first before lower memory levels
+    - Cache smaller than storage it caches
+    - Cache management important - size and replacement policy
+    - Exploits spatial and temporal locality
+- Hardware protection
+    - OS prevents interference between programs
+    - Also protects itself from malicious programs
+    - Hardware can detect errors and generate traps to terminate programs
+    - Signals notify programs of kernel events from interrupts
+- Dual mode protection
+    - User and kernel modes
+    - Hardware mode bit tracks current mode
+    - Traps switch to kernel mode at privileged ring
+    - Kernel executes privileged instructions
+    - x86 has two mode bits 
+- I/O protection
+    - I/O instructions executed by OS 
+    - Privileged - why?
+- Memory protection
+    - OS and interrupt code cannot be modified by user programs
+    - User programs also isolated from each other
+    - OS uses hardware to enforce address space boundaries
+- CPU protection
+    - Timer interrupts preempt processes 
+    - Timeslice program execution
+    - Allow multiple programs to share CPU
+- User to kernel transition
+    - Timer prevents infinite loops
+    - OS sets interrupt after period
+    - Decrements counter, generates interrupt at 0
+    - Regains control or terminates exceeding program
+- Computing environments
+    - Traditional, office, home networks
+    - Blurring over time
+    - Networked access to shared resources
+- Client-server
+    - Dumb terminals -> PCs
+    - Many systems now servers responding to client requests
+- P2P
+    - No clients or servers, all nodes are peers
+    - Nodes act as client, server or both
+    - Join network and register/discover services
+- Web
+    - Ubiquitous
+    - More devices networked for web access
+    - Traffic management with load balancers
+    - Evolution of OSes from client to client/server
+
+## Class Notes 2
+
+- Bootstrap program
+    - First program executed on startup
+    - Initializes CPU registers, memory, devices
+    - Loads OS kernel into memory
+    - e.g. GRUB, LILO, Das U-Boot, systemd-boot
+    - OS runs first process (init) then waits for events
+- Interrupts
+    - Hardware interrupts from devices to CPU
+    - Software interrupts/traps via syscalls or faults  
+- Old PC boot sector
+    - Assumed to be first disk sector
+    - Has boot code and partition table
+    - BIOS loads it into memory at 0x7C00
+    - May relocate it and load new sector at 0x7C00
+    - Size limited to 512 bytes before partition table
+- UEFI boot procedure
+    - Uses GPT partitioning and EFI system partition  
+    - More advanced than MBR boot
+- Example DOS boot sector
+    - Assembly code
+    - Partition table
+    - 0xAA55 signature
+- BIOS booting steps
+    - POST  
+    - Find valid boot sector and load at 0x7C00
+    - Execute boot code
+    - Real mode IVT and BIOS services
+    - Protected mode kernel services
+- 32-bit memory layout
+    - Top 16 bytes accessible via EIP 
+    - 640KB conventional memory
+    - BIOS in high memory  
+- Memory map
+    - IVT, BIOS data, boot sector, conventional mem, extended BIOS, video/ROM
+- System organization 
+    - CPUs, controllers, bus, shared memory
+- System operation
+    - Concurrent device and CPU execution
+    - Controller controls device type
+    - Local buffering 
+    - CPU/DMA copy between buffer and memory
+    - Controller interrupts CPU on completion  
+- Interrupt causes
+    - I/O completion
+    - Program faults  
+    - Bus errors, address errors, page faults
+    - System calls
+- x86 exceptions and interrupts
+- Interrupt hardware
+    - Cascaded 8259 PIC chips
+    - Advanced to support PCI interrupts
+- Multiprocessor interrupt hardware
+    - xAPIC, IOAPIC, LAPIC
+- Interrupt handling
+    - CPU transfers control to ISR
+    - Uses interrupt vector table
+    - May disable interrupts during processing
+    - Saves state, restores after handling
+    - Resumes execution 
+- I/O structure
+    - CPU loads controller registers
+    - Controller performs operation
+    - Interrupts CPU on completion
+- Synchronous vs asynchronous I/O
+- Polling
+    - CPU checks device status repeatedly
+    - Tracks requests in device table
+    - OS maintains wait queue per device
+- DMA
+    - For high speed devices
+    - Transfers between buffer and memory without CPU  
+    - One interrupt per block rather than per byte
+- Storage structure  
+    - Main memory directly accessible to CPU
+    - Secondary storage extends capacity 
+- Hierarchy
+    - Organized by speed, cost, volatility, capacity
+    - Caching copies data to faster storage
+    - Main memory as last cache for secondary 
+- Device hierarchy
+- Performance of storage levels 
+- Caching principles
+    - Frequently used data copied to faster storage 
+    - Cache checked first
+    - Smaller than storage it caches
+    - Cache management important - size and replacement
+    - Exploits locality  
+- Hardware protection 
+    - OS prevents interference between programs
+    - Also protects itself
+    - Hardware detects errors and traps programs
+    - Signals notify programs of kernel events
+- Dual mode protection
+    - User and kernel modes  
+    - Hardware mode bit tracks current mode
+    - Traps switch to kernel mode at privileged ring
+    - Kernel executes privileged instructions
+    - x86 has two mode bits
+- I/O protection  
+    - I/O instructions executed by OS
+    - Privileged - why?
+- Memory protection
+    - OS and interrupt code cannot be modified by users 
+    - Users isolated from each other
+    - OS enforces address space boundaries
+- CPU protection
+    - Timer interrupts preempt processes
+    - Timeslice program execution
+    - Allow sharing of CPU
+- User to kernel transition
+    - Timer prevents infinite loops
+    - OS sets interrupt after period
+    - Generates interrupt when counter hits 0
+    - Regains control or terminates offending program
