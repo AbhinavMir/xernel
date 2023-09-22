@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 
 # Set up your Google Fit API credentials
 credentials = service_account.Credentials.from_service_account_file(
-    'your_credentials.json', scopes=['https://www.googleapis.com/auth/fitness.activity.read']
+    '~/.abc.json', scopes=['https://www.googleapis.com/auth/fitness.activity.read']
 )
 
 # Define the API endpoint to retrieve walking steps data
