@@ -1,9 +1,71 @@
 ---
-title: "A few introductory notes"
+title: "Day 1: A few introductory notes"
 date: 2020-07-06T00:00:00+08:00
 draft: false
 ---
 
+Trying to cram a bunch of information in. 
+
+What happens when you turn on your computer?
+
+1. **POST (Power-On Self-Test):**
+   - When a computer is powered on or reset, it goes through POST, a series of diagnostics.
+   - POST checks for bootable devices (floppy disk, CD-ROM, hard disk) based on firmware configuration.
+
+2. **Master Boot Record (MBR):**
+   - The BIOS checks bootable devices for a boot signature (0x55, 0xAA at byte offsets 510 and 511).
+   - If found, the MBR is loaded into memory at 0x0000:0x7c00, and execution is transferred to it.
+
+3. **Early Environment:**
+   - The early execution environment depends on the BIOS implementation.
+   - Registers may not have valid values, except for DL (drive code).
+   - The CPU is in Real Mode (unless specific BIOS activates Protected Mode).
+
+4. **Kernel:**
+   - The bootloader loads the kernel into memory and passes control to it.
+
+5. **Loading:**
+   - When booting from a hard drive, only 446 bytes are available for the boot record.
+   - Tasks before running the kernel include determining the boot partition, locating the kernel image, loading it into memory, enabling protected mode, and preparing the runtime environment.
+
+6. **Loading Approaches:**
+   - Geek loading: Attempt to fit all tasks into the boot record (challenging).
+   - One-stage loading: Use a stub program to transition to protected mode and prepare for the kernel.
+   - Two-stage loading: Employ a separate stub program loaded below 1MB memory for various tasks.
+
+7. **Traditional Way:**
+   - The MBR relocates itself, identifies the active partition, and chainloads the first sector of that partition.
+
+8. **Easy Way Out:**
+   - Recommends using established bootloaders like GRUB for convenience and functionality.
+
+9. **Other Methods:**
+   - Various methods include loading stage 2 "raw," placing it between MBR and the first partition, using a tool to detect sectors/clusters, or creating an empty filesystem.
+
+10. **Examples:**
+    - DOS and Windows create empty filesystems, placing the kernel and shell as files.
+    - Old Linux booted from floppy disks using a two-stage process.
+    - Mention of a bootloader called "nuni" that switched to protected mode and loaded a file in a single bootsector.
+
+## More notes
+**Boot Signatures:**
+- Boot signatures are specific byte sequences used to identify bootable sectors or partitions.
+- In the context of Master Boot Records (MBRs), boot signatures consist of two bytes: 0x55 and 0xAA, located at byte offsets 510 and 511, respectively.
+- When BIOS checks for a bootable device, it looks for these signatures to determine if a sector can be loaded as a boot record.
+
+**Master Boot Record (MBR):**
+- The Master Boot Record is a small program stored in the first sector (sector number 0) of a storage device, such as a hard drive or SSD.
+- The MBR contains executable code that's responsible for initiating the boot process.
+- It also includes a partition table, which describes the layout of the disk and the locations of primary partitions.
+- The MBR is loaded into memory by the BIOS if it contains the correct boot signature, and control is transferred to it.
+
+**Why 446 Bytes?:**
+- The MBR typically consists of 512 bytes, but the first 446 bytes are reserved for the boot code.
+- The remaining 66 bytes are used for the partition table, which describes up to four primary partitions on the disk.
+- The decision to allocate 446 bytes for boot code is historical and practical. It allows enough space for essential boot code and leaves room for additional bootloader stages or custom code if needed.
+- The partition table, which follows the boot code, is necessary for the BIOS to locate and boot the appropriate partition.
+
+# More general notes
 - OS concepts
     - Program between user and hardware
     - Allows users to execute programs
