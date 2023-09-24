@@ -9,6 +9,13 @@ title = "All posts"
   limit = 100
 
 [[entries]]
+title = "Tentative recommended readings"
+
+[[entries.entries]]
+title = "My first z80 assembly program"
+url = "https://nanochess.org/notebook.html"
+
+[[entries]]
 title = "Acknowledgements"
 
   [[entries.entries]]
