@@ -15,6 +15,10 @@ title = "Tentative recommended readings"
 title = "My first z80 assembly program"
 url = "https://nanochess.org/notebook.html"
 
+[[entries.entries]]
+title = "CTF basics (self-promo, but despite seeming unrelated, you can grok some important bits of OS and x86 from this)"
+url = "https://dev.to/abhinavmir/ctf-basics-5791"
+
 [[entries]]
 title = "Acknowledgements"
 
