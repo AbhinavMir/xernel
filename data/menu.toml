@@ -6,9 +6,7 @@ url = "https://github.com/abhinavmir"
 title = "All posts"
 
   [entries.post_list]
-  limit = 10
-  show_more = true
-  show_more_url = "posts"
+  limit = 100
 
 [[entries]]
 title = "Acknowledgements"

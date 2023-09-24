@@ -1,7 +1,7 @@
 ---
-title: "Day 1: A few introductory notes"
-date: 2020-07-06T00:00:00+08:00
+title: "Some introductory notes, points to cover, logistics"
 draft: false
+date: 1
 ---
 
 Trying to cram a bunch of information in. 
